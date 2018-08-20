@@ -1,0 +1,57 @@
+{
+  "indexMapping": {
+    "book": {
+      "properties": {
+        "docid": {
+          "type": "text",
+          "store": "true",
+          "analyzer": "keyword"
+        },
+        "title": {
+          "type": "text",
+          "store": "true",
+          "term_vector": "with_positions_offsets",
+          "analyzer": "ik_max_word"
+        },
+        "dxid": {
+          "type": "text",
+          "store": "true",
+          "analyzer": "keyword"
+        },
+        "ssid": {
+          "type": "text",
+          "store": "true",
+          "analyzer": "keyword"
+        },
+        "author": {
+          "type": "text",
+          "store": "true",
+          "term_vector": "with_positions_offsets",
+          "analyzer": "ik_max_word"
+        },
+        "publishDate": {
+          "type": "text",
+          "store": "true",
+          "analyzer": "keyword"
+        },
+        "zhangjie": {
+          "type": "text",
+          "store": "true",
+          "term_vector": "with_positions_offsets",
+          "analyzer": "ik_smart"
+        },
+        "qwpos": {
+          "type": "text",
+          "store": "true",
+          "analyzer": "keyword"
+        },
+        "fulltext": {
+          "type": "text",
+          "store": "true",
+          "term_vector": "with_positions_offsets",
+          "analyzer": "ik_smart"
+        }
+      }
+    }
+  }
+}

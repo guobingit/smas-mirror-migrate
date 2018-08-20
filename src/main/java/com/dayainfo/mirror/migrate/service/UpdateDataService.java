@@ -37,8 +37,16 @@ public class UpdateDataService {
 	private void updateData(List<Document> docs) {
 		List<Map<String, Object>> sources = docs.stream().map(doc-> {
 			Map<String, Object> source = new LinkedHashMap<>();
-			source.put("fileName", doc.get("fileName"));
-			source.put("contents", doc.get("content"));
+			source.put("docid", doc.get("zjid"));
+			source.put("title", doc.get("bookname"));
+			source.put("dxid", doc.get("dxid"));
+			source.put("ssid", doc.get("ssid"));
+			source.put("author", doc.get("author"));
+			source.put("publishDate", doc.get("publishDate"));
+			source.put("zhangjie", doc.get("zhangjie"));
+			source.put("qwpos", doc.get("qwpos"));
+			source.put("feilei", doc.get("feilei"));
+			source.put("fulltext", doc.get("mulu"));
 			return source;
 		}).collect(Collectors.toList());
 		esIndexService.insertBook(sources);

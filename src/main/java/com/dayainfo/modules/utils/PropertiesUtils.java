@@ -16,7 +16,7 @@ public class PropertiesUtils {
 	
 	static {
 		try {
-			FileInputStream fileInputStream = new FileInputStream(new File(PropertiesUtils.class.getResource("/config.properties").toURI()));
+			FileInputStream fileInputStream = new FileInputStream(new File(PropertiesUtils.class.getResource("/application.properties").toURI()));
 			InputStreamReader inputStrReader = new InputStreamReader(fileInputStream, "UTF-8");
 			properties.load(inputStrReader);
 			inputStrReader.close();
@@ -35,13 +35,5 @@ public class PropertiesUtils {
 	public static String getIndexFilePath() {
 		return properties.getProperty("index.file.path");
 	}
-	
-	/**
-	 * 获取前台上传文件的保存路径
-	 *
-	 * @return
-	 */
-	public static String getUploadFilePath() {
-		return properties.getProperty("upload.file.path");
-	}
+
 }
