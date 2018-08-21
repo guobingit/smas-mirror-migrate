@@ -7,6 +7,7 @@ import java.util.stream.Collectors;
 import javax.annotation.Resource;
 import com.dayainfo.mirror.migrate.service.essearch.ESIndexService;
 import com.dayainfo.mirror.migrate.service.lucene.LuceneIndexService;
+import com.dayainfo.modules.utils.StringUtils;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.search.MatchAllDocsQuery;
 import org.springframework.stereotype.Service;
@@ -41,9 +42,18 @@ public class UpdateDataService {
 	private void updateData(List<Document> docs) {
 		List<Map<String, Object>> sources = docs.stream().map(doc-> {
 			Map<String, Object> source = new LinkedHashMap<>();
-			source.put("docid", doc.get("zjid"));
+			String zjid = doc.get("zjid");
+			String dxid = doc.get("dxid");
+			if(StringUtils.isBlank(zjid)) {
+				if(StringUtils.isNotBlank(dxid)) {
+					zjid = dxid + "_" + System.currentTimeMillis();
+				} else {
+					zjid = System.currentTimeMillis() + "";
+				}
+			}
+			source.put("docid", zjid);
 			source.put("title", doc.get("bookname"));
-			source.put("dxid", doc.get("dxid"));
+			source.put("dxid", dxid);
 			source.put("ssid", doc.get("ssid"));
 			source.put("author", doc.get("author"));
 			source.put("publishDate", doc.get("publishDate"));
