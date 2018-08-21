@@ -8,6 +8,7 @@ import org.apache.lucene.index.DirectoryReader;
 import org.apache.lucene.index.IndexReader;
 import org.apache.lucene.search.IndexSearcher;
 import org.apache.lucene.search.Query;
+import org.apache.lucene.search.ScoreDoc;
 import org.apache.lucene.search.TopDocs;
 import org.apache.lucene.store.FSDirectory;
 import org.springframework.beans.factory.annotation.Value;
@@ -18,7 +19,7 @@ public class LuceneIndexService {
 	
 	@Value("${index.file.path}")
 	private String indexDir;
-	
+
 //	private IndexWriter writer; // 写索引实例
 //
 //	/**
@@ -67,21 +68,30 @@ public class LuceneIndexService {
 //		return doc;
 //	}
 //
+	
 	/**
 	 * 测试搜索的工具方法
 	 *
 	 * @param query
 	 */
-	public List<Document> search(Query query, int pageSize) throws Exception {
+	public List<Document> search(Query query, int cpage, int pageSize) throws Exception {
 		IndexReader reader = null;
 		List<Document> documents = new ArrayList<>(0);
 		try {
 			reader = DirectoryReader.open(FSDirectory.open(Paths.get(indexDir)));
 			IndexSearcher indexSearcher = new IndexSearcher(reader);
-			TopDocs topDocs = indexSearcher.search(query, pageSize);
-			for (int i = 0; i < topDocs.scoreDocs.length; i++) {
+			ScoreDoc sd = null;
+			int num = pageSize * (cpage - 1);
+			if (cpage > 1) {
+				//获取上一页的最后是多少
+				TopDocs td = indexSearcher.search(query, num);
+				sd = td.scoreDocs[num - 1];
+			}
+			TopDocs topDocs = indexSearcher.searchAfter(sd, query, pageSize);
+			long page = topDocs.totalHits > pageSize * cpage ? pageSize : topDocs.totalHits;
+			for (int i = 0; i < page; i++) {
 				// 根据编号拿到Document数据
-				int docId = topDocs.scoreDocs[i].doc; // Document的内部编号
+				int docId = topDocs.scoreDocs[i].doc;
 				Document doc = indexSearcher.doc(docId);
 				documents.add(doc);
 			}

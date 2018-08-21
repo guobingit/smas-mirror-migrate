@@ -23,8 +23,10 @@ public class UpdateDataService {
 	
 	public void update() throws Exception {
 		MatchAllDocsQuery query = new MatchAllDocsQuery();
+		int cpage = 1;
 		while (true) {
-			List<Document> docs = luceneIndexService.search(query, PAGE_SIZE);
+			System.out.println("页面大小："+ PAGE_SIZE +"，当前第" + cpage + "页");
+			List<Document> docs = luceneIndexService.search(query, cpage, PAGE_SIZE);
 			if(docs.size() == 0) {
 				break;
 			}
@@ -32,6 +34,7 @@ public class UpdateDataService {
 			if (docs.size() < PAGE_SIZE) {
 				break;
 			}
+			cpage++;
 		}
 	}
 	
