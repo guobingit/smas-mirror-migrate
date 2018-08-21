@@ -46,7 +46,7 @@ public class UpdateDataService {
 			source.put("publishDate", doc.get("publishDate"));
 			source.put("zhangjie", doc.get("zhangjie"));
 			source.put("qwpos", doc.get("qwpos"));
-			source.put("feilei", doc.get("feilei"));
+			source.put("fenlei", doc.get("fenlei"));
 			source.put("fulltext", doc.get("mulu"));
 			return source;
 		}).collect(Collectors.toList());

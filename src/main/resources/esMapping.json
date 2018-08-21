@@ -34,6 +34,11 @@
           "store": "true",
           "analyzer": "keyword"
         },
+        "fenlei": {
+          "type": "text",
+          "store": "true",
+          "analyzer": "keyword"
+        },
         "zhangjie": {
           "type": "text",
           "store": "true",
