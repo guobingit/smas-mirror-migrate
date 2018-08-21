@@ -6,7 +6,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 import javax.annotation.Resource;
 import com.dayainfo.mirror.migrate.service.essearch.ESIndexService;
-import com.dayainfo.mirror.migrate.service.lucene.LuceneIndex;
+import com.dayainfo.mirror.migrate.service.lucene.LuceneIndexService;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.search.MatchAllDocsQuery;
 import org.springframework.stereotype.Service;
@@ -18,12 +18,13 @@ public class UpdateDataService {
 	
 	@Resource
 	private ESIndexService esIndexService;
+	@Resource
+	private LuceneIndexService luceneIndexService;
 	
 	public void update() throws Exception {
-		LuceneIndex index = new LuceneIndex();
 		MatchAllDocsQuery query = new MatchAllDocsQuery();
 		while (true) {
-			List<Document> docs = index.search(query, PAGE_SIZE);
+			List<Document> docs = luceneIndexService.search(query, PAGE_SIZE);
 			if(docs.size() == 0) {
 				break;
 			}

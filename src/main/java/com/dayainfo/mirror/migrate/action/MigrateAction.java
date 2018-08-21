@@ -1,7 +1,5 @@
 package com.dayainfo.mirror.migrate.action;
 
-import java.io.IOException;
-import java.net.URISyntaxException;
 import javax.annotation.Resource;
 import com.dayainfo.mirror.migrate.constants.Constants;
 import com.dayainfo.mirror.migrate.service.UpdateDataService;
@@ -49,7 +47,7 @@ public class MigrateAction {
 		try {
 			esIndexService.createIndex(Constants.INDEX_NAME);
 			return "success";
-		} catch (URISyntaxException | IOException e) {
+		} catch (Exception e) {
 			LOGGER.error("create es index error", e);
 			return "false";
 		}

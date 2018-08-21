@@ -3,7 +3,6 @@ package com.dayainfo.mirror.migrate.service.lucene;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
-import com.dayainfo.modules.utils.PropertiesUtils;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.index.DirectoryReader;
 import org.apache.lucene.index.IndexReader;
@@ -11,10 +10,14 @@ import org.apache.lucene.search.IndexSearcher;
 import org.apache.lucene.search.Query;
 import org.apache.lucene.search.TopDocs;
 import org.apache.lucene.store.FSDirectory;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Service;
 
-public class LuceneIndex {
+@Service
+public class LuceneIndexService {
 	
-	private static final String indexDir = PropertiesUtils.getIndexFilePath();
+	@Value("${index.file.path}")
+	private String indexDir;
 	
 //	private IndexWriter writer; // 写索引实例
 //

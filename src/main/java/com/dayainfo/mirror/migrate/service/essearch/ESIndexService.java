@@ -1,10 +1,5 @@
 package com.dayainfo.mirror.migrate.service.essearch;
 
-import java.io.File;
-import java.io.IOException;
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.nio.charset.Charset;
 import java.util.List;
 import java.util.Map;
 import com.alibaba.fastjson.JSON;
@@ -36,9 +31,8 @@ public class ESIndexService extends ESBaseSearch {
 		}
 	}
 	
-	public void createIndex(String index) throws URISyntaxException, IOException {
-		URI uri = Thread.currentThread().getContextClassLoader().getResource("esMapping.json").toURI();
-		String mapping = FileUtils.readFileToString(new File(uri), Charset.defaultCharset());
+	public void createIndex(String index) {
+		String mapping = FileUtils.readFile("esMapping.json");
 		JSONObject jsonObject = JSON.parseObject(mapping);
 		getClient().admin()
 				.indices()
