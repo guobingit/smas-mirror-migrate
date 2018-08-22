@@ -28,7 +28,7 @@ public class UpdateDataService {
 		while (true) {
 			System.out.println("页面大小："+ PAGE_SIZE +"，当前第" + cpage + "页");
 			List<Document> docs = luceneIndexService.search(query, cpage, PAGE_SIZE);
-			if(docs.size() == 0) {
+			if(docs == null || docs.size() == 0) {
 				break;
 			}
 			updateData(docs);

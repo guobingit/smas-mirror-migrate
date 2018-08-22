@@ -1,5 +1,6 @@
 package com.dayainfo.mirror.migrate.service.lucene;
 
+import java.io.IOException;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
@@ -74,7 +75,7 @@ public class LuceneIndexService {
 	 *
 	 * @param query
 	 */
-	public List<Document> search(Query query, int cpage, int pageSize) throws Exception {
+	public List<Document> search(Query query, int cpage, int pageSize) {
 		IndexReader reader = null;
 		List<Document> documents = new ArrayList<>(0);
 		try {
@@ -88,7 +89,14 @@ public class LuceneIndexService {
 				sd = td.scoreDocs[num - 1];
 			}
 			TopDocs topDocs = indexSearcher.searchAfter(sd, query, pageSize);
-			long page = topDocs.totalHits > pageSize * cpage ? pageSize : topDocs.totalHits;
+			long page;
+			if (pageSize * (cpage - 1) - topDocs.totalHits >= 0) {
+				return null;
+			} else if (pageSize * cpage - topDocs.totalHits > 0) {
+				page = topDocs.totalHits % pageSize;
+			} else {
+				page = pageSize;
+			}
 			for (int i = 0; i < page; i++) {
 				// 根据编号拿到Document数据
 				int docId = topDocs.scoreDocs[i].doc;
@@ -98,7 +106,10 @@ public class LuceneIndexService {
 		} catch (Exception e) {
 			throw new RuntimeException(e);
 		} finally {
-			reader.close();
+			try {
+				reader.close();
+			}catch (IOException e) {
+			}
 		}
 		return documents;
 	}
