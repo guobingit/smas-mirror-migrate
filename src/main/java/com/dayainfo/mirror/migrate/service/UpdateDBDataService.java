@@ -14,7 +14,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class UpdateDBDataService {
 	
-	private static final int PAGE_SIZE = 2;
+	private static final int PAGE_SIZE = 200;
 	
 	@Resource
 	private UserMapper userMapper;
