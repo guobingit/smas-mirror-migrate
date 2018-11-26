@@ -1,6 +1,7 @@
 package com.dayainfo.mirror.migrate.action;
 
 import javax.annotation.Resource;
+import com.dayainfo.mirror.migrate.constants.Constants;
 import com.dayainfo.mirror.migrate.service.UpdateDBDataService;
 import com.dayainfo.mirror.migrate.service.essearch.ESIndexService;
 import org.slf4j.Logger;
@@ -32,6 +33,18 @@ public class MigrateDBAction {
 		} catch (Exception e) {
 			LOGGER.error("migrate error", e);
 			return "error";
+		}
+	}
+	
+	@RequestMapping("create")
+	@ResponseBody
+	public String create() {
+		try {
+			esIndexService.createIndex(Constants.DB_INDEX_NAME, Constants.DB_INDEX_TYPE, "dbESMapping.json");
+			return "success";
+		} catch (Exception e) {
+			LOGGER.error("create es index error", e);
+			return "false";
 		}
 	}
 }
