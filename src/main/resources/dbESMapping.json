@@ -1,0 +1,24 @@
+{
+  "indexMapping": {
+    "test_type": {
+      "properties": {
+        "docid": {
+          "type": "text",
+          "store": "true",
+          "analyzer": "keyword"
+        },
+        "name": {
+          "type": "text",
+          "store": "true",
+          "term_vector": "with_positions_offsets",
+          "analyzer": "ik_max_word"
+        },
+        "age": {
+          "type": "text",
+          "store": "true",
+          "analyzer": "keyword"
+        }
+      }
+    }
+  }
+}

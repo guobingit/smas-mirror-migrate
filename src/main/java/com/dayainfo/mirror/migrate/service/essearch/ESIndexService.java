@@ -4,7 +4,6 @@ import java.util.List;
 import java.util.Map;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
-import com.dayainfo.mirror.migrate.constants.Constants;
 import com.dayainfo.modules.utils.FileUtils;
 import org.elasticsearch.action.admin.indices.exists.indices.IndicesExistsRequest;
 import org.elasticsearch.action.admin.indices.exists.indices.IndicesExistsResponse;
@@ -31,23 +30,23 @@ public class ESIndexService extends ESBaseSearch {
 		}
 	}
 	
-	public void createIndex(String index) {
-		String mapping = FileUtils.readFile("esMapping.json");
+	public void createIndex(String name, String type, String jsonName) {
+		String mapping = FileUtils.readFile(jsonName);
 		JSONObject jsonObject = JSON.parseObject(mapping);
 		getClient().admin()
 				.indices()
-				.prepareCreate(index)
+				.prepareCreate(name)
 				.setSettings(Settings.builder()
 						.put("index.number_of_replicas", INDEX_REPLICAS)
 						.put("index.number_of_shards", INDEX_SHARDS)
 						.build())
-				.addMapping(Constants.INDEX_TYPE, jsonObject.getJSONObject("indexMapping"))
+				.addMapping(type, jsonObject.getJSONObject("indexMapping"))
 				.get();
 	}
 	
-	public void insertBook(List<Map<String, Object>> sources) {
+	public void insertBook(List<Map<String, Object>> sources, String name, String type) {
 		BulkRequestBuilder bulkRequestBuilder = getClient().prepareBulk();
-		sources.forEach(f -> bulkRequestBuilder.add(getClient().prepareIndex(Constants.INDEX_NAME, Constants.INDEX_TYPE, f.get("docid").toString()).setSource(f)));
+		sources.forEach(f -> bulkRequestBuilder.add(getClient().prepareIndex(name, type, f.get("docid").toString()).setSource(f)));
 		bulkRequestBuilder.get();
 	}
 }

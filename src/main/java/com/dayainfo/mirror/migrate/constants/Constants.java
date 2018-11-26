@@ -10,4 +10,7 @@ public class Constants {
 	 */
 	public static final String INDEX_NAME = "index";
 	public static final String INDEX_TYPE = "book";
+	
+	public static final String DB_INDEX_NAME = "test_index";
+	public static final String DB_INDEX_TYPE = "test_type";
 }

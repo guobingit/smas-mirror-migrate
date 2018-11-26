@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 import javax.annotation.Resource;
+import com.dayainfo.mirror.migrate.constants.Constants;
 import com.dayainfo.mirror.migrate.service.essearch.ESIndexService;
 import com.dayainfo.mirror.migrate.service.lucene.LuceneIndexService;
 import com.dayainfo.modules.utils.StringUtils;
@@ -22,7 +23,7 @@ public class UpdateDataService {
 	@Resource
 	private LuceneIndexService luceneIndexService;
 	
-	public void update() throws Exception {
+	public void update() {
 		MatchAllDocsQuery query = new MatchAllDocsQuery();
 		int cpage = 1;
 		while (true) {
@@ -63,6 +64,6 @@ public class UpdateDataService {
 			source.put("fulltext", doc.get("mulu"));
 			return source;
 		}).collect(Collectors.toList());
-		esIndexService.insertBook(sources);
+		esIndexService.insertBook(sources, Constants.INDEX_NAME, Constants.INDEX_TYPE);
 	}
 }
